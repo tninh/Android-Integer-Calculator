@@ -43,10 +43,13 @@ public class MainActivity extends AppCompatActivity {
                 str1 += str;
                 Log.d("This is str", str);
                 Log.d("This is str1", str1);
-                screen.setText(str1);
+                screen.setText(tempStr);
             }
 
-            a = Integer.parseInt(str);
+            if(sign.equals("+") || sign.equals("-"))
+                a = Integer.parseInt(sign + str);
+            else
+                a = Integer.parseInt(str);
 
 
 
@@ -56,9 +59,16 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn = (Button) v;
             if(str1.endsWith("+") || str1.endsWith("-") || str1.endsWith("*") || str1.endsWith("/")) {
-                Log.d("This is str1_0:", str1);
-                char last = str1.charAt(str1.length()-1);
-                str1.replace(last, btn.getText().charAt(0));
+                Log.d("This is str1:", str1);
+                if(str1.length() == 1)
+                {
+                    str1 = btn.getText().toString();
+                }
+                else {
+                    char last = str1.charAt(str1.length() - 1);
+
+                    str1.replace(last, btn.getText().charAt(0));
+                }
                 //sign = btn.getText().toString();
                 //str1 += sign;
                 Log.d("This is str1_0:", str1);
@@ -87,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         sign = "";
         str1 = "";
         tempStr = "";
+        Log.d("This is count_clear", Integer.toString(count));
+        count = 0;
         //temp = 0;
         //temp = a;
     }
@@ -100,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private void onEqual()
     {
-
-        if (count == 1) {
+        //Integer.toString(count);
+        if (count == 1 || (count !=1 && (str1.startsWith("+") || str1.startsWith("-")))) {
             str2 = screen.getText().toString();
             b = Integer.parseInt(str2);
             try {
@@ -114,19 +126,24 @@ public class MainActivity extends AppCompatActivity {
                 } else if (sign.equals("*")) {
                     resultInt = temp * b;
                     result = Integer.toString(resultInt);
-                } else if (sign.equals("÷")) {
-                    resultInt = temp / b;
+                } else if (sign.equals("/")) {
+                    Log.d("This is temp", Integer.toString(temp));
+                    resultInt = Math.round((float)temp / (float)b);
                     result = Integer.toString(resultInt);
+                    Log.d("This is resultInt", result);
+                    Log.d("This is count", Integer.toString(count));
                 } else {
                     result = "Error";
                 }
                 }catch (NullPointerException e) {
                 screen.setText("Error");
             }
+            count = 0;
         }
         else {
             //str1 += screen.getText().toString();
             Log.d("This is the real str1", str1);
+            Log.d("This is count", Integer.toString(count));
             try {
                 Expression expression = new ExpressionBuilder(str1).build();
 
@@ -137,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 screen.setText("Error");
             }
+            count = 0;
         }
         screen.setText(result);
     }
