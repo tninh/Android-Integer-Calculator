@@ -8,6 +8,7 @@ import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import android.util.*;
 
+import java.io.IOException;
 import java.util.prefs.InvalidPreferencesFormatException;
 
 
@@ -28,20 +29,20 @@ public class MainActivity extends AppCompatActivity {
         sign = "";
         //lastNumeric = false;
     }
-    public void onClick(View v){
+    public void onClick(View v) {
         Button btn = (Button) v;
 
-            if ((tempStr.startsWith("0") && btn.getText().toString().equals("0") && !str1.isEmpty())|| (tempStr.startsWith("0") && !btn.getText().toString().equals("0") && !str1.isEmpty())) {
+        try {
+            if ((tempStr.startsWith("0") && btn.getText().toString().equals("0") && !str1.isEmpty()) || (tempStr.startsWith("0") && !btn.getText().toString().equals("0") && !str1.isEmpty())) {
                 str = btn.getText().toString();
 
                 Log.d("This is tempStr0", tempStr);
                 Log.d("This is str", str);
                 Log.d("This is str1", str1);
-                tempStr  = str;
+                tempStr = str;
                 str1 = str1 + tempStr;
                 screen.setText(str);
-            }
-            else {
+            } else {
 
                 str = btn.getText().toString();
                 tempStr += str;
@@ -52,21 +53,20 @@ public class MainActivity extends AppCompatActivity {
                 screen.setText(tempStr);
             }
 
-            if((!sign.isEmpty()) && (sign.equals("+") || sign.equals("-")))
-            {
+
+            if ((!sign.isEmpty()) && (sign.equals("+") || sign.equals("-"))) {
                 a = Integer.parseInt(sign + str);
                 Log.d("This is a", Integer.toString(a));
-            }
-
-            else {
+            } else {
                 a = Integer.parseInt(tempStr);
                 Log.d("This is a", Integer.toString(a));
             }
-
-
-
-
+        }catch (NumberFormatException s){
+            if(Integer.parseInt(btn.getText().toString()) > 9999999 || Integer.parseInt(btn.getText().toString()) < -9999999)
+                screen.setText("Overflow");
+        }
     }
+
     public void onClickSigns(View v){
 
         Button btn = (Button) v;
