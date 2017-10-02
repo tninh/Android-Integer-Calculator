@@ -8,6 +8,8 @@ import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import android.util.*;
 
+import java.util.prefs.InvalidPreferencesFormatException;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -141,9 +143,13 @@ public class MainActivity extends AppCompatActivity {
                 } else if (sign.equals("*")) {
                     resultInt = temp * b;
                     result = Integer.toString(resultInt);
-                } else if (sign.equals("/")) {
+                } else if (sign.equals("/") && b != 0) {
                     Log.d("This is temp", Integer.toString(temp));
-                    resultInt = Math.round((float)temp / (float)b);
+                    if(temp < 0)
+                        resultInt = (int)Math.floor((double)temp / (double)b);
+                    else
+                            resultInt = (int) Math.rint((double) temp / (double) b);
+
                     result = Integer.toString(resultInt);
                     Log.d("This is resultInt", result);
                     Log.d("This is count", Integer.toString(count));
@@ -171,6 +177,11 @@ public class MainActivity extends AppCompatActivity {
             }
             count = 0;
         }
-        screen.setText(result);
+        if(Integer.parseInt(result) > 9999999 || Integer.parseInt(result) < -9999999)
+        {
+            screen.setText("OVERFLOW!");
+        }
+        else
+            screen.setText(result);
     }
 }
