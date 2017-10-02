@@ -23,33 +23,43 @@ public class MainActivity extends AppCompatActivity {
         str = "";
         str1="";
         tempStr = "";
+        sign = "";
         //lastNumeric = false;
     }
     public void onClick(View v){
         Button btn = (Button) v;
 
-            if ((tempStr.startsWith("0") && btn.getText().toString().equals("0") && str1.isEmpty())|| (tempStr.startsWith("0") && (!btn.getText().toString().equals("0")) && !str1.isEmpty())) {
+            if ((tempStr.startsWith("0") && btn.getText().toString().equals("0") && !str1.isEmpty())|| (tempStr.startsWith("0") && !btn.getText().toString().equals("0") && !str1.isEmpty())) {
                 str = btn.getText().toString();
-                str1 = str;
+
                 Log.d("This is tempStr0", tempStr);
                 Log.d("This is str", str);
                 Log.d("This is str1", str1);
+                tempStr  = str;
+                str1 = str1 + tempStr;
                 screen.setText(str);
             }
             else {
-                Log.d("This is tempStr", tempStr);
+
                 str = btn.getText().toString();
                 tempStr += str;
+                Log.d("This is tempStr", tempStr);
                 str1 += str;
                 Log.d("This is str", str);
                 Log.d("This is str1", str1);
                 screen.setText(tempStr);
             }
 
-            if(sign.equals("+") || sign.equals("-"))
+            if((!sign.isEmpty()) && (sign.equals("+") || sign.equals("-")))
+            {
                 a = Integer.parseInt(sign + str);
-            else
-                a = Integer.parseInt(str);
+                Log.d("This is a", Integer.toString(a));
+            }
+
+            else {
+                a = Integer.parseInt(tempStr);
+                Log.d("This is a", Integer.toString(a));
+            }
 
 
 
@@ -65,13 +75,13 @@ public class MainActivity extends AppCompatActivity {
                     str1 = btn.getText().toString();
                 }
                 else {
-                    char last = str1.charAt(str1.length() - 1);
-
-                    str1.replace(last, btn.getText().charAt(0));
+                    str1 = str1.substring(0, str1.length() - 1) + btn.getText().toString();
+                    //str1 = str1 + btn.getText().toString();
                 }
                 //sign = btn.getText().toString();
                 //str1 += sign;
                 Log.d("This is str1_0:", str1);
+                sign = btn.getText().toString();
                 str = "";
                 tempStr = "";
                 count += 1;
@@ -87,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 tempStr = "";
                 count += 1;
                 temp = a;
+                Log.d("This is temp", Integer.toString(temp));
             }
 
     }
@@ -97,8 +108,10 @@ public class MainActivity extends AppCompatActivity {
         sign = "";
         str1 = "";
         tempStr = "";
+        temp = 0;
         Log.d("This is count_clear", Integer.toString(count));
         count = 0;
+        a = 0;
         //temp = 0;
         //temp = a;
     }
@@ -118,11 +131,13 @@ public class MainActivity extends AppCompatActivity {
             b = Integer.parseInt(str2);
             try {
                 if (sign.equals("+")) {
+                    Log.d("This is temp", Integer.toString(temp));
                     resultInt = temp + b;
                     result = Integer.toString(resultInt);
                 } else if (sign.equals("-")) {
                     resultInt = temp - b;
                     result = Integer.toString(resultInt);
+                    Log.d("This is result", result);
                 } else if (sign.equals("*")) {
                     resultInt = temp * b;
                     result = Integer.toString(resultInt);
