@@ -1,0 +1,14 @@
+Link YouTube: https://youtu.be/XOOzQdSEeqY
+Tested: 
+14 + 7
+5+9-3+10
+5++-1=
++-5
+0004 + 32 ++ 0101 - - 04=
+39 + 48 = - 10 + 5 - 98=
+2 / 5 = 0
+8 / 9 = 1
+divided by zero
+*5=
+bigger than 9999999
+smaller than -9999999
