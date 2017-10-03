@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 str = btn.getText().toString();
                 tempStr += str;
                 Log.d("This is tempStr", tempStr);
+                Log.d("This is tempStr.length", Integer.toString(tempStr.length()));
                 str1 += str;
                 Log.d("This is str", str);
                 Log.d("This is str1", str1);
@@ -62,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("This is a", Integer.toString(a));
             }
         }catch (NumberFormatException s){
-            if(Integer.parseInt(btn.getText().toString()) > 9999999 || Integer.parseInt(btn.getText().toString()) < -9999999)
-                screen.setText("Overflow");
+            if(tempStr.length() > 6)
+                screen.setText("OVERFLOW!");
         }
     }
 
@@ -132,7 +133,11 @@ public class MainActivity extends AppCompatActivity {
             str2 = screen.getText().toString();
             b = Integer.parseInt(str2);
             try {
-                if (sign.equals("+")) {
+                if (str1.startsWith("*") | str1.startsWith("/")){
+                    resultInt = 0;
+                    result = "Error";
+                }
+                else if (sign.equals("+")) {
                     Log.d("This is temp", Integer.toString(temp));
                     resultInt = temp + b;
                     result = Integer.toString(resultInt);
@@ -153,10 +158,15 @@ public class MainActivity extends AppCompatActivity {
                     result = Integer.toString(resultInt);
                     Log.d("This is resultInt", result);
                     Log.d("This is count", Integer.toString(count));
-                } else {
+                }else if (sign.equals("/") && b == 0){
+                    resultInt = 0;
                     result = "Error";
                 }
                 }catch (NullPointerException e) {
+                screen.setText("Error");
+            }
+            catch(NumberFormatException e)
+            {
                 screen.setText("Error");
             }
             count = 0;
@@ -164,8 +174,10 @@ public class MainActivity extends AppCompatActivity {
         else {
             //str1 += screen.getText().toString();
             Log.d("This is the real str1", str1);
+            str1 = str1 + "=";
             Log.d("This is count", Integer.toString(count));
             try {
+
                 Expression expression = new ExpressionBuilder(str1).build();
 
                 resultInt = (int) expression.evaluate();
@@ -173,11 +185,17 @@ public class MainActivity extends AppCompatActivity {
                 screen.setText(result);
             }catch (ArithmeticException e)
             {
+                
+                screen.setText("Error");
+
+            }
+            catch (NumberFormatException e)
+            {
                 screen.setText("Error");
             }
             count = 0;
         }
-        if(Integer.parseInt(result) > 9999999 || Integer.parseInt(result) < -9999999)
+        if(resultInt > 9999999 || resultInt < -9999999)
         {
             screen.setText("OVERFLOW!");
         }
