@@ -32,13 +32,13 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View v) {
         Button btn = (Button) v;
 
-        try {
+
             if ((tempStr.startsWith("0") && btn.getText().toString().equals("0") && !str1.isEmpty()) || (tempStr.startsWith("0") && !btn.getText().toString().equals("0") && !str1.isEmpty())) {
                 str = btn.getText().toString();
 
-                Log.d("This is tempStr0", tempStr);
-                Log.d("This is str", str);
-                Log.d("This is str1", str1);
+                //Log.d("This is tempStr0", tempStr);
+                //Log.d("This is str", str);
+                //Log.d("This is str1", str1);
                 tempStr = str;
                 str1 = str1 + tempStr;
                 screen.setText(str);
@@ -46,33 +46,34 @@ public class MainActivity extends AppCompatActivity {
 
                 str = btn.getText().toString();
                 tempStr += str;
-                Log.d("This is tempStr", tempStr);
-                Log.d("This is tempStr.length", Integer.toString(tempStr.length()));
+                //Log.d("This is tempStr", tempStr);
+                //Log.d("This is tempStr.length", Integer.toString(tempStr.length()));
                 str1 += str;
-                Log.d("This is str", str);
-                Log.d("This is str1", str1);
+                //Log.d("This is str", str);
+                //Log.d("This is str1", str1);
                 screen.setText(tempStr);
             }
 
 
             if ((!sign.isEmpty()) && (sign.equals("+") || sign.equals("-"))) {
                 a = Integer.parseInt(sign + str);
-                Log.d("This is a", Integer.toString(a));
+                //Log.d("This is a", Integer.toString(a));
             } else {
                 a = Integer.parseInt(tempStr);
-                Log.d("This is a", Integer.toString(a));
+                //Log.d("This is a", Integer.toString(a));
             }
-        }catch (NumberFormatException s){
-            if(tempStr.length() > 6)
+            if(tempStr.length() > 7)
+            {
                 screen.setText("OVERFLOW!");
-        }
+                return;
+            }
     }
 
     public void onClickSigns(View v){
 
         Button btn = (Button) v;
             if(str1.endsWith("+") || str1.endsWith("-") || str1.endsWith("*") || str1.endsWith("/")) {
-                Log.d("This is str1:", str1);
+                //Log.d("This is str1:", str1);
                 if(str1.length() == 1)
                 {
                     str1 = btn.getText().toString();
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //sign = btn.getText().toString();
                 //str1 += sign;
-                Log.d("This is str1_0:", str1);
+                //Log.d("This is str1_0:", str1);
                 sign = btn.getText().toString();
                 str = "";
                 tempStr = "";
@@ -92,15 +93,17 @@ public class MainActivity extends AppCompatActivity {
             }else
             {
                 sign = btn.getText().toString();
-                Log.d("This is sign", sign);
+                //Log.d("This is sign", sign);
                 str1 += sign;
 
-                Log.d("This is str1:", str1);
+                //Log.d("This is str1:", str1);
                 str = "";
                 tempStr = "";
                 count += 1;
-                temp = a;
-                Log.d("This is temp", Integer.toString(temp));
+                if(resultInt == 0) {
+                    temp = a;
+                    //Log.d("This is temp", Integer.toString(temp));
+                }
             }
 
     }
@@ -112,9 +115,11 @@ public class MainActivity extends AppCompatActivity {
         str1 = "";
         tempStr = "";
         temp = 0;
-        Log.d("This is count_clear", Integer.toString(count));
+        //Log.d("This is count_clear", Integer.toString(count));
         count = 0;
         a = 0;
+        resultInt = 0;
+        result = "";
         //temp = 0;
         //temp = a;
     }
@@ -170,12 +175,14 @@ public class MainActivity extends AppCompatActivity {
                 screen.setText("Error");
             }
             count = 0;
+            temp = resultInt;
+
         }
         else {
             //str1 += screen.getText().toString();
-            Log.d("This is the real str1", str1);
-            str1 = str1 + "=";
-            Log.d("This is count", Integer.toString(count));
+            //Log.d("This is the real str1", str1);
+            //str1 = str1 + "=";
+            //Log.d("This is count", Integer.toString(count));
             try {
 
                 Expression expression = new ExpressionBuilder(str1).build();
@@ -185,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 screen.setText(result);
             }catch (ArithmeticException e)
             {
-                
+
                 screen.setText("Error");
 
             }
@@ -194,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 screen.setText("Error");
             }
             count = 0;
+            temp = resultInt;
         }
         if(resultInt > 9999999 || resultInt < -9999999)
         {
